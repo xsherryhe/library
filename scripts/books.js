@@ -1,4 +1,4 @@
-const library = [ { title: 'Test', author: 'Author', pages: 256, read: false } ];
+const library = [{ title: 'Les Misérables', author: 'Victor Hugo', pages: 1462, read: true } ];
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -38,7 +38,7 @@ function displayBook(book, index) {
    createPagesElement(book.pages), createReadElement(book.read),
    createToggleReadElement(book.read), createRemoveElement()]
   .forEach(element => bookElement.appendChild(element));
-  document.querySelector('.books').appendChild(bookElement);
+  document.querySelector('.books').prepend(bookElement);
 }
 
 function displayBooks() {
@@ -54,6 +54,7 @@ document.querySelector('.new-book-button').addEventListener('click', toggleForm)
 
 function createBookElement(index) {
   const bookElement = document.createElement('div');
+  bookElement.classList.add('book');
   bookElement.dataset.index = index;
   return bookElement;
 }
