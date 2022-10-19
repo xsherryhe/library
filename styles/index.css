@@ -53,6 +53,14 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
+.invalid {
+  border: solid 1px red;
+}
+
+.error {
+  color: red;
+}
+
 .read-field {
   gap: 0.25rem;
 }

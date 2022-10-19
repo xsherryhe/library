@@ -9,10 +9,12 @@ function Book(title, author, pages, read) {
 
 function addBook(e) {
   e.preventDefault();
-  const inputs = ['title', 'author', 'pages']
-                 .map(attribute => document.getElementById(attribute).value)
-                 .concat(document.getElementById('read').checked);
-  const book = new Book(...inputs);
+  const inputs = ['title', 'author', 'pages', 'read']
+                 .map(attribute => document.getElementById(attribute));
+  if(!validateInputs(...inputs)) return;
+  
+  const attributes = inputs.slice(0, 3).map(input => input.value).concat(inputs[3].checked),
+        book = new Book(...attributes);
   library.push(book);
   displayBook(book, library.indexOf(book));
   document.querySelector('.new-book-form').reset();
@@ -53,6 +55,28 @@ function toggleForm() {
   document.querySelector('.new-book-form').classList.toggle('hidden');
 }
 document.querySelector('.new-book-button').addEventListener('click', toggleForm);
+
+function validateInputs(title, author, pages, read) {
+  document.querySelectorAll('.error').forEach(error => error.remove());
+  [title, author, pages, read].forEach(element => element.classList.remove('invalid'));
+
+  let valid = true;
+  [title, author].forEach(element => {
+    if(element.value == '') {
+      element.classList.add('invalid');
+      const error = document.createElement('div');
+      error.classList.add('error');
+      error.textContent = `${capitalize(element.name)} cannot be blank`;
+      element.insertAdjacentElement('afterend', error);
+      valid = false;
+    }
+  })
+  return valid;
+}
+
+function capitalize(string) {
+  return string[0].toUpperCase() + string.slice(1);
+}
 
 function createBookElement(index) {
   const bookElement = document.createElement('div');
