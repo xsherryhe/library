@@ -57,6 +57,31 @@ input[type="checkbox"] {
   gap: 0.25rem;
 }
 
+.book {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.read {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.read-text.marked-as-read {
+  color: green;
+}
+
+.read-text:not(.marked-as-read) {
+  color: red;
+}
+
+.read button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+}
+
 .submit-container {
   min-width: 28rem;
   display: flex;

@@ -9,8 +9,9 @@ function Book(title, author, pages, read) {
 
 function addBook(e) {
   e.preventDefault();
-  const inputs = ['title', 'author', 'pages', 'read']
-                 .map(attribute => document.getElementById(attribute).value);
+  const inputs = ['title', 'author', 'pages']
+                 .map(attribute => document.getElementById(attribute).value)
+                 .concat(document.getElementById('read').checked);
   const book = new Book(...inputs);
   library.push(book);
   displayBook(book, library.indexOf(book));
@@ -25,18 +26,19 @@ function removeBook(e) {
 }
 
 function toggleBookRead(e) {
-  const index = e.target.parentNode.dataset.index,
+  const readElement = e.target.parentNode,
+        readText = readElement.querySelector('.read-text'),
+        index = readElement.parentNode.parentNode.dataset.index,
         book = library[index];
   book.read = !book.read;
-  e.target.textContent = `Change to ${book.read ? 'Unread' : 'Read'}`;
-  displayBooks();
+  e.target.textContent = `Mark as ${book.read ? 'Unread' : 'Read'}`;
+  readText.classList.toggle('marked-as-read');
+  readText.textContent = `You have ${book.read ? 'read' : 'not read'} this book.`;
 }
 
 function displayBook(book, index) {
   const bookElement = createBookElement(index);
-  [createTitleElement(book.title), createAuthorElement(book.author),
-   createPagesElement(book.pages), createReadElement(book.read),
-   createToggleReadElement(book.read), createRemoveElement()]
+  [createBookDetailsElement(book), createRemoveElement()]
   .forEach(element => bookElement.appendChild(element));
   document.querySelector('.books').prepend(bookElement);
 }
@@ -57,6 +59,14 @@ function createBookElement(index) {
   bookElement.classList.add('book');
   bookElement.dataset.index = index;
   return bookElement;
+}
+
+function createBookDetailsElement(book) {
+  const bookDetailsElement = document.createElement('div');
+  [createTitleElement(book.title), createAuthorElement(book.author),
+   createPagesElement(book.pages), createReadElement(book.read)]
+  .forEach(element => bookDetailsElement.appendChild(element));
+  return bookDetailsElement;
 }
 
 function createTitleElement(titleContent) {
@@ -81,15 +91,21 @@ function createPagesElement(pagesContent) {
 }
 
 function createReadElement(readBoolean) {
-  const readElement = document.createElement('p');
+  const readElement = document.createElement('div'),
+        readText = document.createElement('p'),
+        toggleReadButton = document.createElement('button');
   readElement.classList.add('read');
-  readElement.textContent = `You have ${readBoolean ? 'read' : 'not read'} this book.`;
+  readText.classList.add('read-text', readBoolean ? 'marked-as-read' : null);
+  readText.textContent = `You have ${readBoolean ? 'read' : 'not read'} this book.`;
+  toggleReadButton.textContent = `Mark as ${readBoolean ? 'Unread' : 'Read'}`;
+  toggleReadButton.addEventListener('click', toggleBookRead);
+  [readText, toggleReadButton].forEach(element => readElement.appendChild(element));
   return readElement;
 }
 
 function createToggleReadElement(readBoolean) {
   const toggleReadElement = document.createElement('button');
-  toggleReadElement.textContent = `Change to ${readBoolean ? 'Unread' : 'Read'}`;
+  toggleReadElement.textContent = `Mark as ${readBoolean ? 'Unread' : 'Read'}`;
   toggleReadElement.addEventListener('click', toggleBookRead);
   return toggleReadElement;
 }
