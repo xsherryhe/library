@@ -74,7 +74,8 @@ button:hover {
   grid-template-columns: max-content 1fr;
   min-width: 28rem;
   align-items: center;
-  gap: 0.5rem;
+  column-gap: 0.5rem;
+  row-gap: 0.2rem;
 }
 
 input[type="text"] {
@@ -96,12 +97,9 @@ input[type="checkbox"] {
 }
 
 .error {
+  font-size: 0.85rem;
   grid-column: 2 / span 1;
   color: red;
-}
-
-.read-field {
-  gap: 0.25rem;
 }
 
 .submit-container {
