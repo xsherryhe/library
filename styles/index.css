@@ -33,7 +33,8 @@ button {
 }
 
 .field {
-  display: flex;
+  display: grid;
+  grid-template-columns: max-content 1fr;
   min-width: 28rem;
   align-items: center;
   gap: 0.5rem;
@@ -58,6 +59,7 @@ input[type="checkbox"] {
 }
 
 .error {
+  grid-column: 2 / span 1;
   color: red;
 }
 
