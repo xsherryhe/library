@@ -1,24 +1,34 @@
-const library = [{ title: 'Les Misérables', author: 'Victor Hugo', pages: 1462, read: true } ];
+class Book {
+  title; 
+  author;
+  pages;
+  read;
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
 
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
+  toggleRead() {
+    this.read = !this.read;
+  }
 }
+
+const library = [new Book('Les Misérables', 'Victor Hugo', 1462, true)];
 
 function addBook(e) {
-  e.preventDefault();
-  const inputs = ['title', 'author', 'pages', 'read']
-                 .map(attribute => document.getElementById(attribute));
-  if(!validateInputs(...inputs)) return;
-  
-  const attributes = inputs.slice(0, 3).map(input => input.value).concat(inputs[3].checked),
-        book = new Book(...attributes);
-  library.push(book);
-  displayBook(book, library.indexOf(book));
-  document.querySelector('.new-book-form').reset();
-}
+    e.preventDefault();
+    const inputs = ['title', 'author', 'pages', 'read']
+                  .map(attribute => document.getElementById(attribute));
+    if(!validateInputs(...inputs)) return;
+    
+    const attributes = inputs.slice(0, 3).map(input => input.value).concat(inputs[3].checked),
+          book = new Book(...attributes);
+    library.push(book);
+    displayBook(book, library.indexOf(book));
+    document.querySelector('.new-book-form').reset();
+  }
 document.querySelector('.submit').addEventListener('click', addBook);
 
 function removeBook(e) {
@@ -32,7 +42,7 @@ function toggleBookRead(e) {
         readText = readElement.querySelector('.read-text'),
         index = readElement.parentNode.parentNode.dataset.index,
         book = library[index];
-  book.read = !book.read;
+  book.toggleRead();
   e.target.textContent = `Mark as ${book.read ? 'Unread' : 'Read'}`;
   readText.classList.toggle('marked-as-read');
   readText.textContent = `You have ${book.read ? 'read' : 'not read'} this book.`;
