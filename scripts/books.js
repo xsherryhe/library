@@ -1,11 +1,14 @@
-const library = [{ title: 'Les Misérables', author: 'Victor Hugo', pages: 1462, read: true } ];
-
 function Book(title, author, pages, read) {
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.read = read;
 }
+Book.prototype.toggleRead = function() {
+  this.read = !this.read;
+}
+
+const library = [new Book('Les Misérables', 'Victor Hugo', 1462, true)];
 
 function addBook(e) {
   e.preventDefault();
@@ -32,7 +35,7 @@ function toggleBookRead(e) {
         readText = readElement.querySelector('.read-text'),
         index = readElement.parentNode.parentNode.dataset.index,
         book = library[index];
-  book.read = !book.read;
+  book.toggleRead();
   e.target.textContent = `Mark as ${book.read ? 'Unread' : 'Read'}`;
   readText.classList.toggle('marked-as-read');
   readText.textContent = `You have ${book.read ? 'read' : 'not read'} this book.`;
