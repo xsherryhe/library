@@ -78,6 +78,10 @@ button:hover {
   row-gap: 0.2rem;
 }
 
+input[type="text"], input[type="number"] {
+  height: 1.5rem;
+}
+
 input[type="text"] {
   flex: 1 1 0;
 }
@@ -92,7 +96,11 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
-.invalid {
+input {
+  border: solid 1px black;
+}
+
+input:out-of-range, input.submit-invalid {
   border: solid 1px red;
 }
 
